@@ -1,0 +1,38 @@
+name: Build .NET Project
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: "8.x" # Specify the .NET version you are using
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish --configuration Release --output ./publish --no-build
+
+      - name: Archive production artifacts
+        run: tar -czvf app.tar.gz -C ./publish .
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-artifacts
+          path: app.tar.gz
