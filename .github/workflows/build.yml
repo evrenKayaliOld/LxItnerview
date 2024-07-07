@@ -52,11 +52,11 @@ jobs:
 
       - name: Deploy to DigitalOcean Droplet
         run: |
-          ssh -o StrictHostKeyChecking=no root@209.38.28.218 << 'EOF'
-           mkdir -p /var/www/myapp
-           tar -xzvf /root/app.tar.gz -C /var/www/myapp
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@209.38.28.218 "
+            mkdir -p /var/www/myapp
+            tar -xzvf /root/app.tar.gz -C /var/www/myapp
 
-           pkill dotnet || true
+            pkill dotnet || true
 
-           ASPNETCORE_URLS=http://localhost:80 dotnet /var/www/myapp/LxInterview.Api.dll &
-           EOF
+            ASPNETCORE_URLS=http://*:80 dotnet /var/www/myapp/LxInterview.Api.dll &
+          "
