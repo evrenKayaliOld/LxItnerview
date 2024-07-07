@@ -46,12 +46,15 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 170.64.218.87 >> ~/.ssh/known_hosts
 
+      - name: Copy artifact to DigitalOcean Droplet
+        run: |
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ./app.tar.gz root@170.64.218.87:/root/app.tar.gz
+
       - name: Deploy to DigitalOcean Droplet
         run: |
           ssh -o StrictHostKeyChecking=no root@170.64.218.87 << 'EOF'
            mkdir -p /var/www/myapp
            tar -xzvf /root/app.tar.gz -C /var/www/myapp
-           rm /root/app.tar.gz
 
            pkill dotnet || true
 
