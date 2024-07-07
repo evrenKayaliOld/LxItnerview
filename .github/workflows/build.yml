@@ -58,5 +58,5 @@ jobs:
 
            pkill dotnet || true
 
-           dotnet /var/www/myapp/LxInterview.Api.dll &
+           ASPNETCORE_URLS=http://localhost:80 dotnet /var/www/myapp/LxInterview.Api.dll &
            EOF
