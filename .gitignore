@@ -476,13 +476,14 @@ $RECYCLE.BIN/
 *.msix
 *.msm
 *.msp
-
+*.tfstate
+.tfstate.*
 # Windows shortcuts
 *.lnk
 
 # Vim temporary swap files
 *.swp
-
-
 .terraform
 *.hcl
+infra/terraform.tfstate
+infra/terraform.tfstate

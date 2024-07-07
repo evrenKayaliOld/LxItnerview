@@ -36,3 +36,17 @@ jobs:
         with:
           name: app-artifacts
           path: app.tar.gz
+
+      - name: Deploy to DigitalOcean Droplet
+        run: |
+          ssh -o StrictHostKeyChecking=no root@170.64.218.87 << 'EOF'
+           mkdir -p /var/www/myapp
+           tar -xzvf /root/app.tar.gz -C /var/www/myapp
+           rm /root/app.tar.gz
+
+           # Kill any existing .NET application running
+           pkill dotnet || true
+
+           # Run the new .NET application
+           dotnet /var/www/myapp/LxInterview.Api.dll &
+           EOF
