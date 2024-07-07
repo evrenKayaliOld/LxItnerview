@@ -39,14 +39,16 @@ jobs:
 
       - name: Deploy to DigitalOcean Droplet
         run: |
+          mkdir -p ~/.ssh
+          echo "$DO_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
           ssh -o StrictHostKeyChecking=no root@170.64.218.87 << 'EOF'
            mkdir -p /var/www/myapp
            tar -xzvf /root/app.tar.gz -C /var/www/myapp
            rm /root/app.tar.gz
 
-           # Kill any existing .NET application running
            pkill dotnet || true
-
-           # Run the new .NET application
+           
            dotnet /var/www/myapp/LxInterview.Api.dll &
            EOF
