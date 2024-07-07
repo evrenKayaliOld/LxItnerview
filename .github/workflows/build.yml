@@ -44,7 +44,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "$DO_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 09.38.28.218 >> ~/.ssh/known_hosts
+          ssh-keyscan -H 209.38.28.218 >> ~/.ssh/known_hosts
 
       - name: Copy artifact to DigitalOcean Droplet
         run: |
