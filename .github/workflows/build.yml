@@ -17,16 +17,16 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: "8.x" # Specify the .NET version you are using
+          dotnet-version: "8.x"
 
       - name: Restore dependencies
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build ./src --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish --configuration Release --output ./publish --no-build
+        run: dotnet publish ./src --configuration Release --output ./publish --no-build
 
       - name: Archive production artifacts
         run: tar -czvf app.tar.gz -C ./publish .
