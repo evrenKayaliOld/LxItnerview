@@ -37,18 +37,23 @@ jobs:
           name: app-artifacts
           path: app.tar.gz
 
-      - name: Deploy to DigitalOcean Droplet
+      - name: Set up SSH
+        env:
+          DO_SSH_PRIVATE_KEY: ${{ secrets.DO_SSH_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.ssh
           echo "$DO_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H your_droplet_ip >> ~/.ssh/known_hosts
 
+      - name: Deploy to DigitalOcean Droplet
+        run: |
           ssh -o StrictHostKeyChecking=no root@170.64.218.87 << 'EOF'
            mkdir -p /var/www/myapp
            tar -xzvf /root/app.tar.gz -C /var/www/myapp
            rm /root/app.tar.gz
 
            pkill dotnet || true
-           
+
            dotnet /var/www/myapp/LxInterview.Api.dll &
            EOF
