@@ -58,5 +58,10 @@ jobs:
 
             pkill dotnet || true
 
-            ASPNETCORE_URLS=http://*:80 dotnet /var/www/myapp/LxInterview.Api.dll &
+            ASPNETCORE_URLS=http://*:80 dotnet /var/www/myapp/LxInterview.Api.dll > /dev/null 2>&1 &
+            echo 'Deployment completed.'
+            sleep 5  # Give some time for the application to start
+
+            # Disconnect from SSH
+            exit
           "
